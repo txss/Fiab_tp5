@@ -4,7 +4,10 @@ public class MyDate {
 	private final static int MINYEAR = 1970;
 	private final static int MAXYEAR = 2050;
 	private final static String [] DATEARRAY = {"Monday", "Tuesday" , "Wednesday", "Thurday", "Friday", "Saturday", "Sunday"};
-
+	private final static String [] MONTHARRAY = {"January", "February" , "March",
+			"April", "May", "June", "July", "August", "September", "October",
+			"November", "December"};
+	  
 	private int year = -1;
 	private int month = -1;
 	private int day = -1;
@@ -13,11 +16,11 @@ public class MyDate {
 
 	}
 
-	public static  int getMINYEAR() { return MINYEAR; }
+	public static int getMINYEAR() { return MINYEAR; }
 
 	public static int getMAXYEAR() { return MAXYEAR; }
 
-	public static String[] getDatearray() {	return DATEARRAY; }
+	public static String[] getDateArray() {	return DATEARRAY; }
 
 	public int getYear() {
 		return year; 
@@ -81,7 +84,7 @@ public class MyDate {
 
 		this.day = day;
 	}
-
+ 
 	public MyDate today(){
 		// TODO Auto-generated method stub
 		return this;
@@ -166,7 +169,7 @@ public class MyDate {
 	 * @return
 	 */
 	public String ctime() {
-		return getDay() + " " + getMonth() + " " + getYear() ;
+		return MONTHARRAY[getMonth()] + " " + getDay() + " " + getYear() ;
 	}
 
 }
