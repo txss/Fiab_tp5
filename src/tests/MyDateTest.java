@@ -9,7 +9,7 @@ import date.MyDate;
 import date.MyDateException;
 
 /*
- * Pour modifier une date il faut commencer par l'année, mois et jour
+ * Pour modifier une date il faut commencer par l'annï¿½e, mois et jour
  */
 
 public class MyDateTest {
@@ -21,7 +21,7 @@ public class MyDateTest {
 	}
 
 	/*
-	 * Check the méthod about the year
+	 * Check the method about the year
 	 */
 	
 	@Test
@@ -152,7 +152,7 @@ public class MyDateTest {
 		assertEquals(17, myDate.getDay() );
 	}
 	
-	// Test le jour 29 d'une année bissextile
+	// Test le jour 29 d'une annï¿½e bissextile
 	@Test 
 	public void setDayLimiSupBissextileTest() throws MyDateException{
 		myDate.setDay(29);
