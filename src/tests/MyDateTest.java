@@ -2,27 +2,59 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import date.MyDate;
 import date.MyDateException;
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 
 /*
  * Pour modifier une date il faut commencer par l'ann�e, mois et jour
  */
 
+@RunWith(JMockit.class)
 public class MyDateTest {
 	MyDate myDate;
+	
+	@Mocked
+	Calendar c = Calendar.getInstance();
 
 	@Before
 	public void init() {
-		myDate = new MyDate();
+		myDate = new MyDate(c);
 	}
 
 	/*
 	 * Check the method about the year
 	 */
+	
+	@Test
+	public void todayTest() {
+		new Expectations(){
+			{
+				c.getTime();
+				result=new Date(2012,12,21);
+				times=1;
+			}
+		};
+		
+		assertEquals(myDate.today(), new Date(2012,12,21));
+	}
+	
+	@Test
+	public void fromTimeStampTest(){
+		long actual, expected;
+		actual = MyDate.fromTimeStamp(0);
+		expected = System.currentTimeMillis() / 1000L;
+		assertEquals(actual, expected);
+	}
 	
 	@Test
 	public void isBissextile() throws MyDateException{

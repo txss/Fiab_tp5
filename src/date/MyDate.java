@@ -1,16 +1,21 @@
 package date;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class MyDate {
 	private final static int MINYEAR = 1970;
 	private final static int MAXYEAR = 2050;
 	private final static String [] DATEARRAY = {"Monday", "Tuesday" , "Wednesday", "Thurday", "Friday", "Saturday", "Sunday"};
-
+	
+	private Calendar c;
+	
 	private int year = -1;
 	private int month = -1;
 	private int day = -1;
 
-	public MyDate(){
-
+	public MyDate(Calendar c){
+		this.c = c;
 	}
 
 	public static  int getMINYEAR() { return MINYEAR; }
@@ -82,14 +87,12 @@ public class MyDate {
 		this.day = day;
 	}
 
-	public MyDate today(){
-		// TODO Auto-generated method stub
-		return this;
+	public Date today(){
+		return c.getTime();
 	}
 
-	public MyDate fromTimeStamp(long  timeStamp){
-		// TODO Auto-generated method stub
-		return this;
+	public static long fromTimeStamp(long  timeStamp){
+		return System.currentTimeMillis() / 1000L;
 	}
 
 	public MyDate fromOrdinal(int ordinal){
@@ -147,7 +150,7 @@ public class MyDate {
 	}
 
 	/**
-	 * Return a string representing the date in ISO 8601 format, ‘YYYY-MM-DD’.
+	 * Return a string representing the date in ISO 8601 format, ï¿½YYYY-MM-DDï¿½.
 	 * @return
 	 */
 	public String isoFormat() {
