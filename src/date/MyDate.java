@@ -1,19 +1,25 @@
 package date;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class MyDate {
 	private final static int MINYEAR = 1970;
 	private final static int MAXYEAR = 2050;
-	private final static String [] DATEARRAY = {"Monday", "Tuesday" , "Wednesday", "Thurday", "Friday", "Saturday", "Sunday"};
+	private final static String [] DATEARRAY = {"Sunday", "Monday", "Tuesday" , "Wednesday", "Thurday", "Friday", "Saturday"};
 	private final static String [] MONTHARRAY = {"January", "February" , "March",
 			"April", "May", "June", "July", "August", "September", "October",
 			"November", "December"};
 	  
-	private int year = -1;
-	private int month = -1;
-	private int day = -1;
 
-	public MyDate(){
+	private Calendar c;
+	
+	private int year;
+	private int month;
+	private int day ;
 
+	public MyDate(Calendar c){
+		this.c = c;
 	}
 
 	public static int getMINYEAR() { return MINYEAR; }
@@ -22,6 +28,9 @@ public class MyDate {
 
 	public static String[] getDateArray() {	return DATEARRAY; }
 
+	public static String[] getMonthArray() { return MONTHARRAY; }
+
+	
 	public int getYear() {
 		return year; 
 	}
@@ -84,21 +93,35 @@ public class MyDate {
 
 		this.day = day;
 	}
- 
-	public MyDate today(){
-		// TODO Auto-generated method stub
-		return this;
+
+	public Date today(){
+		return c.getTime();
 	}
 
-	public MyDate fromTimeStamp(long  timeStamp){
-		// TODO Auto-generated method stub
-		return this;
+	public static long fromTimeStamp(long  timeStamp){
+		return System.currentTimeMillis() / 1000L;
 	}
 
 	public MyDate fromOrdinal(int ordinal){
 		// TODO Auto-generated method stub
 		return this;
 	}
+	
+	public int findDay(){
+		int num;
+		int z;
+		
+		if( month < 3  ) z = year - 1;
+		else z = year;
+		
+		num = ( (23*month) / 9) + day + 4 + year + (year / 4 ) - 
+				(year / 100) + (year / 400);
+		
+		if( month >= 3 ) return (num - 2 ) % 7;
+		return ( num ) % 7;
+		
+	}
+	
 
 	/**
 	 * Return a date with the same value, except for those parameters given 
@@ -127,8 +150,7 @@ public class MyDate {
 	 * @return
 	 */
 	public int weekDay() {
-		// TODO Auto-generated method stub
-		return 0;
+		return findDay();
 	}
 
 	/**
@@ -136,8 +158,9 @@ public class MyDate {
 	 * @return
 	 */
 	public int isoWeekday() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(findDay()==0)
+			return 7;
+		return findDay();
 	}
 
 	/**
@@ -150,7 +173,7 @@ public class MyDate {
 	}
 
 	/**
-	 * Return a string representing the date in ISO 8601 format, ‘YYYY-MM-DD’.
+	 * Return a string representing the date in ISO 8601 format, ï¿½YYYY-MM-DDï¿½.
 	 * @return
 	 */
 	public String isoFormat() {
@@ -169,7 +192,7 @@ public class MyDate {
 	 * @return
 	 */
 	public String ctime() {
-		return MONTHARRAY[getMonth()] + " " + getDay() + " " + getYear() ;
+		return DATEARRAY[findDay()] + " " + MONTHARRAY[getMonth()-1] + " " + getDay() + " " + getYear() ;
 	}
 
 }

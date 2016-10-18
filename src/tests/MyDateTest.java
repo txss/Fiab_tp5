@@ -2,26 +2,33 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import date.MyDate;
 import date.MyDateException;
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 
 /*
  * Pour modifier une date il faut commencer par l'ann�e, mois et jour
  */
 
+@RunWith(JMockit.class)
 public class MyDateTest {
 	MyDate myDate;
-	private final static String [] DATEARRAY = {"Monday", "Tuesday" , "Wednesday", "Thurday", "Friday", "Saturday", "Sunday"};
-	private final static String [] MONTHARRAY = {"January", "February" , "March",
-			"April", "May", "June", "July", "August", "September", "October",
-			"November", "December"};
+	
+	@Mocked
+	Calendar c = Calendar.getInstance();
 
 	@Before
 	public void init() {
-		myDate = new MyDate();
+		myDate = new MyDate(c);
 	}
 
 	/*
@@ -42,11 +49,42 @@ public class MyDateTest {
 	public void getDateArrayTest(){
 
 		String[] array = MyDate.getDateArray();
-		for(int i = 0 ; i < DATEARRAY.length ; i++){
-			assertEquals(DATEARRAY[i], array[i]);
+		for(int i = 0 ; i < MyDate.getDateArray().length ; i++){
+			assertEquals(MyDate.getDateArray()[i], array[i]);
 		}
 	}
 
+	@Test
+	public void findDayTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(17);
+		assertEquals(1, myDate.findDay());
+	}
+	
+	
+	
+	@Test
+	public void todayTest() {
+		new Expectations(){
+			{
+				c.getTime();
+				result=new Date(2012,12,21);
+				times=1;
+			}
+		};
+		
+		assertEquals(myDate.today(), new Date(2012,12,21));
+	}
+	
+	@Test
+	public void fromTimeStampTest(){
+		long actual, expected;
+		actual = MyDate.fromTimeStamp(0);
+		expected = System.currentTimeMillis() / 1000L;
+		assertEquals(actual, expected);
+	}
+	
 	@Test
 	public void isBissextile() throws MyDateException{
 		assertTrue( myDate.isBissextile(2016));
@@ -90,39 +128,46 @@ public class MyDateTest {
 	}
 
 	@Test
-	public void  weekDayTest() throws MyDateException{
+	public void  weekDayMonTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
 		myDate.setDay(17);
-		myDate.setMonth(10);
-		myDate.setYear(2016);
-
-		assertEquals(0, myDate.getDay());
+		
+		assertEquals(1, myDate.isoWeekday());
 	}
-
-	@Test(expected = MyDateException.class)
-	public void  weekDayWithErrorTest() throws MyDateException{
-		myDate.setDay(18);
-		myDate.setMonth(10);
+	
+	@Test
+	public void  weekDayMidWeekTest() throws MyDateException{
 		myDate.setYear(2016);
-
-		assertEquals(0, myDate.getDay());
+		myDate.setMonth(10);
+		myDate.setDay(19);
+		
+		assertEquals(3, myDate.isoWeekday());
+	}
+	
+	@Test
+	public void  weekDaySunTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(16);
+		
+		assertEquals(7, myDate.isoWeekday());
 	}
 
 	@Test
-	public void isoWeekdayTest() throws MyDateException{
+	public void isoWeekdayMonTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
 		myDate.setDay(17);
-		myDate.setMonth(10);
-		myDate.setYear(2016);
-
-		assertEquals(1, myDate.getDay());
+		assertEquals(1, myDate.isoWeekday());
 	}
-
-	@Test(expected = MyDateException.class)
-	public void isoWeekdayWithErrorTest() throws MyDateException{
-		myDate.setDay(18);
-		myDate.setMonth(10);
+		
+	@Test
+	public void isoWeekdaySunTest() throws MyDateException{
 		myDate.setYear(2016);
-
-		myDate.getDay();
+		myDate.setMonth(10);
+		myDate.setDay(16);
+		assertEquals(7, myDate.isoWeekday());
 	}
 
 	@Test
@@ -154,12 +199,10 @@ public class MyDateTest {
 
 	@Test
 	public void ctimeTest() throws MyDateException {
-		
 		myDate.setYear(2016);
 		myDate.setMonth(10);
 		myDate.setDay(17);
-		System.out.println(MONTHARRAY[myDate.getMonth()] + " " + myDate.getDay() + " " + myDate.getYear());
-		
+
 		assertEquals("Monday October 17 2016", myDate.ctime());
 	}
 
