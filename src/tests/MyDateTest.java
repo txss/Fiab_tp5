@@ -89,8 +89,29 @@ public class MyDateTest {
 	}
 	
 	@Test
-	public void replaceTest(){
+	public void replaceTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(16);
+		
+		MyDate test = new MyDate();
+		test.setYear(2016);
+		test.setMonth(11);
+		test.setDay(30);
 
+		assertEquals(test.toString(), myDate.replace(2016, 11, 30).toString());
+	}
+	
+	@Test(expected = MyDateException.class)
+	public void replaceWithInvalidateDateTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(16);
+		
+		MyDate test = new MyDate();
+		test.setYear(2017);
+		test.setMonth(2);
+		test.setDay(29);
 	}
 
 	@Test

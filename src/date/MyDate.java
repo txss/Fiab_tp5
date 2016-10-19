@@ -109,10 +109,13 @@ public class MyDate {
 	 * @param month
 	 * @param day
 	 * @return
+	 * @throws MyDateException 
 	 */
-	public MyDate replace(int year, int month, int day) {
-		// TODO Auto-generated method stub
-		return null;
+	public MyDate replace(int year, int month, int day) throws MyDateException {
+		setYear(year);
+		setMonth(month);
+		setDay(day);
+		return this;
 	}
 
 	/**
@@ -238,10 +241,10 @@ public class MyDate {
 	/**
 	 * Return a 3-tuple, (ISO year, ISO week number, ISO weekday)
 	 * @return
+	 * @throws MyDateException 
 	 */
-	public String isoCalendar() {
-		
-		return null;
+	public String isoCalendar() throws MyDateException {
+		return getYear() + "-" + isoWeekNumber() + "-" + isoWeekday();
 	}
 
 	/**
