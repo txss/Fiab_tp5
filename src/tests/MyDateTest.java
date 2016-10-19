@@ -89,6 +89,16 @@ public class MyDateTest {
 	}
 	
 	@Test
+	public void replaceTest(){
+
+	}
+
+	@Test
+	public void toOrdinalTest(){
+		assertEquals(1096, myDate.toOrdinal(2016, 10, 19));
+	}
+	
+	@Test
 	public void isLeapYearTest() throws MyDateException{
 		assertTrue( myDate.isLeapYear(2016));
 	}
@@ -118,17 +128,6 @@ public class MyDateTest {
 		assertFalse(myDate.is31Month(6));
 	}
 
-
-
-	@Test
-	public void replaceTest(){
-
-	}
-
-	@Test
-	public void toOrdinalTest(){
-
-	}
 
 	@Test
 	public void weekDayWithFirstMonth() throws MyDateException{
