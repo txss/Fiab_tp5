@@ -164,7 +164,6 @@ public class MyDateTest {
 		
 		assertEquals(6, myDate.weekDay());
 	}
-	
 
 	@Test
 	public void isoWeekdayMonTest() throws MyDateException{
@@ -201,7 +200,7 @@ public class MyDateTest {
 	}
 
 	@Test
-	public void isoWeekNumberTest() throws MyDateException{
+	public void isoWeekNumberWhithLeapYearTest() throws MyDateException{
 		myDate.setYear(2017);
 		myDate.setMonth(10);
 		myDate.setDay(17);
@@ -210,7 +209,7 @@ public class MyDateTest {
 	}
 	
 	@Test
-	public void isoWeekNumberATest() throws MyDateException{
+	public void isoWeekNumberWithNotLeapYearTest() throws MyDateException{
 		myDate.setYear(2016);
 		myDate.setMonth(10);
 		myDate.setDay(20);
@@ -252,15 +251,6 @@ public class MyDateTest {
 		myDate.setDay(31);
 
 		assertEquals(365, myDate.dayPastInYear());
-	}
-	
-	@Test
-	public void dayPastInYearTest() throws MyDateException{
-		myDate.setYear(2016);
-		myDate.setMonth(10);
-		myDate.setDay(17);
-		
-		assertEquals(291, myDate.dayPastInYear());
 	}
 	
 	@Test
