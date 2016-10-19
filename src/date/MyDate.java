@@ -6,7 +6,7 @@ import java.util.Date;
 public class MyDate {
 	private final static int MINYEAR = 1970;
 	private final static int MAXYEAR = 2050;
-	private final static String [] DATEARRAY = {"Sunday", "Monday", "Tuesday" , "Wednesday", "Thurday", "Friday", "Saturday"};
+	private final static String [] DAYARRAY = {"Sunday", "Monday", "Tuesday" , "Wednesday", "Thurday", "Friday", "Saturday"};
 	private final static String [] MONTHARRAY = {"January", "February" , "March",
 			"April", "May", "June", "July", "August", "September", "October",
 			"November", "December"};
@@ -26,7 +26,7 @@ public class MyDate {
 
 	public static int getMAXYEAR() { return MAXYEAR; }
 
-	public static String[] getDateArray() {	return DATEARRAY; }
+	public static String[] getDayArray() {	return DAYARRAY; }
 
 	public static String[] getMonthArray() { return MONTHARRAY; }
 
@@ -69,7 +69,7 @@ public class MyDate {
 		return false;
 	}
 
-	public boolean isBissextile(int year){
+	public boolean isLeapYear(int year){
 		if( (year % 4 ==0 && year % 100 != 0) || year % 400 == 0)
 			return true;
 		return false;
@@ -85,7 +85,7 @@ public class MyDate {
 		}else if ( is30Month(month) && day > 30){
 			System.out.println("Le mois a 30 jours");
 			throw new MyDateException("The day is greater than 30");
-		}else if( isBissextile(year) &&  day > 29 && month == 2){
+		}else if( isLeapYear(year) &&  day > 29 && month == 2){
 			throw new MyDateException("This is a leap year");
 		}else
 			if( day > 28   && month == 2 )
@@ -164,11 +164,35 @@ public class MyDate {
 	}
 
 	/**
+	 * Return a number of day past in year with the current day
+	 * @return
+	 */
+	public int dayPastInYear(){
+		int dayPastInYear = day ;
+	
+		if( month == 1 ) return dayPastInYear;
+		
+		for(int i = 1 ; i < month ; i++){
+			if( i == 2 && isLeapYear(year)) dayPastInYear +=29;
+			if( i == 2 && ! isLeapYear(year)) dayPastInYear +=28;
+			
+			if( is30Month(i) ) dayPastInYear+= 30; 
+			if( is31Month(i) )  dayPastInYear += 31;
+		}
+		
+		return dayPastInYear;
+	}
+	
+	public int isoWeekNumber(){
+		return dayPastInYear() / 7;
+	}
+	
+	/**
 	 * Return a 3-tuple, (ISO year, ISO week number, ISO weekday)
 	 * @return
 	 */
 	public String isoCalendar() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -192,7 +216,7 @@ public class MyDate {
 	 * @return
 	 */
 	public String ctime() {
-		return DATEARRAY[findDay()] + " " + MONTHARRAY[getMonth()-1] + " " + getDay() + " " + getYear() ;
+		return DAYARRAY[findDay()] + " " + MONTHARRAY[getMonth()-1] + " " + getDay() + " " + getYear() ;
 	}
 
 }
