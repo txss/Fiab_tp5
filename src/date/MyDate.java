@@ -18,9 +18,7 @@ public class MyDate {
 	private int month;
 	private int day ;
 
-	public MyDate(Calendar c){
-		this.c = c;
-	}
+	public MyDate() {}
 
 	public static int getMINYEAR() { return MINYEAR; }
 
@@ -55,6 +53,10 @@ public class MyDate {
 	public int getDay() {
 		return day;
 	}
+	
+	public void setCalendar(Calendar c) {
+		this.c = c;
+	}//setCalendar()
 
 	public boolean is31Month(int month){
 		if ( month == 1 || month == 3 || month == 5 || month == 7 || 
@@ -80,10 +82,8 @@ public class MyDate {
 			throw new MyDateException("The day is not available");
 
 		if ( is31Month(month) &&  day > 31) {
-			System.out.println("Le mois a 31 jours");
 			throw new MyDateException("The day is greater than 31");
 		}else if ( is30Month(month) && day > 30){
-			System.out.println("Le mois a 30 jours");
 			throw new MyDateException("The day is greater than 30");
 		}else if( isLeapYear(year) &&  day > 29 && month == 2){
 			throw new MyDateException("This is a leap year");
@@ -105,21 +105,6 @@ public class MyDate {
 	public MyDate fromOrdinal(int ordinal){
 		// TODO Auto-generated method stub
 		return this;
-	}
-	
-	public int findDay(){
-		int num;
-		int z;
-		
-		if( month < 3  ) z = year - 1;
-		else z = year;
-		
-		num = ( (23*month) / 9) + day + 4 + year + (year / 4 ) - 
-				(year / 100) + (year / 400);
-		
-		if( month >= 3 ) return (num - 2 ) % 7;
-		return ( num ) % 7;
-		
 	}
 	
 
@@ -150,7 +135,14 @@ public class MyDate {
 	 * @return
 	 */
 	public int weekDay() {
-		return findDay();
+		int num;
+
+		num = ( (23*month) / 9) + day + 4 + year + (year / 4 ) - 
+				(year / 100) + (year / 400);
+		
+		if( month >= 3 ) return (num - 2 ) % 7;
+		return ( num ) % 7;
+		
 	}
 
 	/**
@@ -158,9 +150,9 @@ public class MyDate {
 	 * @return
 	 */
 	public int isoWeekday() {
-		if(findDay()==0)
+		if(weekDay()==0)
 			return 7;
-		return findDay();
+		return weekDay();
 	}
 
 	/**
@@ -183,8 +175,27 @@ public class MyDate {
 		return dayPastInYear;
 	}
 	
-	public int isoWeekNumber(){
-		return dayPastInYear() / 7;
+	/**
+	 * Return the current number of the week
+	 * @return
+	 * @throws MyDateException
+	 */
+	public int isoWeekNumber() throws MyDateException{
+		MyDate tmp = new MyDate();
+		tmp.setYear(year);
+		tmp.setMonth(1);
+		tmp.setDay(1);
+
+		int x =  (int)((dayPastInYear() / 7)+ (tmp.isoWeekday()*0.20) );
+		
+		if(tmp.isoWeekday() <= 4){
+			if( x == 0 ) return 1;
+			return x;
+		} else
+			if( x == 0 )
+				if( isLeapYear(year-1) ) return 53;
+				else return 52;
+		return (int) (x);
 	}
 	
 	/**
@@ -216,7 +227,7 @@ public class MyDate {
 	 * @return
 	 */
 	public String ctime() {
-		return DAYARRAY[findDay()] + " " + MONTHARRAY[getMonth()-1] + " " + getDay() + " " + getYear() ;
+		return DAYARRAY[weekDay()] + " " + MONTHARRAY[getMonth()-1] + " " + getDay() + " " + getYear() ;
 	}
 
 }
