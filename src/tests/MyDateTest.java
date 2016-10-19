@@ -49,22 +49,23 @@ public class MyDateTest {
 
 	@Test
 	public void getDateArrayTest(){
-
-		String[] array = MyDate.getDateArray();
-		for(int i = 0 ; i < MyDate.getDateArray().length ; i++){
-			assertEquals(MyDate.getDateArray()[i], array[i]);
+		String [] DAYARRAY = {"Sunday", "Monday", "Tuesday" , "Wednesday", "Thurday", "Friday", "Saturday"};
+		
+		for(int i = 0 ; i < MyDate.getDayArray().length ; i++){
+			assertEquals(MyDate.getDayArray()[i], DAYARRAY[i]);
 		}
 	}
-
+	
 	@Test
-	public void findDayTest() throws MyDateException{
-		myDate.setYear(2016);
-		myDate.setMonth(10);
-		myDate.setDay(17);
-		assertEquals(1, myDate.findDay());
+	public void getMonthArrayTest(){
+		String [] MONTHARRAY = {"January", "February" , "March",
+				"April", "May", "June", "July", "August", "September", "October",
+				"November", "December"};
+		
+		for(int i = 0 ; i < MyDate.getMonthArray().length ; i++){
+			assertEquals(MyDate.getMonthArray()[i], MONTHARRAY[i]);
+		}
 	}
-	
-	
 	
 	@Test
 	public void todayTest() {
@@ -94,17 +95,17 @@ public class MyDateTest {
 
 	@Test
 	public void toOrdinalTest(){
-		assertEquals(myDate.toOrdinal(128, 1, 1), 1096);
+		assertEquals(1096, myDate.toOrdinal(2016, 10, 19));
 	}
 	
 	@Test
-	public void isBissextile() throws MyDateException{
-		assertTrue(myDate.isBissextile(2016));
+	public void isLeapYearTest() throws MyDateException{
+		assertTrue( myDate.isLeapYear(2016));
 	}
 
 	@Test
-	public void isNotBissextile() throws MyDateException{
-		assertFalse(myDate.isBissextile(2017));
+	public void isNotLeapYearTest() throws MyDateException{
+		assertFalse( myDate.isLeapYear(2017));
 	}
 
 	@Test
@@ -129,21 +130,11 @@ public class MyDateTest {
 
 
 	@Test
-	public void  weekDayMonTest() throws MyDateException{
-		myDate.setYear(2016);
-		myDate.setMonth(10);
+	public void weekDayWithFirstMonth() throws MyDateException{
+		myDate.setYear(2017);
+		myDate.setMonth(1);
 		myDate.setDay(17);
-		
-		assertEquals(1, myDate.isoWeekday());
-	}
-	
-	@Test
-	public void  weekDayMidWeekTest() throws MyDateException{
-		myDate.setYear(2016);
-		myDate.setMonth(10);
-		myDate.setDay(19);
-		
-		assertEquals(3, myDate.isoWeekday());
+		assertEquals(2, myDate.weekDay());
 	}
 	
 	@Test
@@ -152,8 +143,27 @@ public class MyDateTest {
 		myDate.setMonth(10);
 		myDate.setDay(16);
 		
-		assertEquals(7, myDate.isoWeekday());
+		assertEquals(0, myDate.weekDay());
 	}
+
+	@Test
+	public void  weekDayMidWeekTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(19);
+		
+		assertEquals(3, myDate.weekDay());
+	}
+	
+	@Test
+	public void  weekDayMonTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(22);
+		
+		assertEquals(6, myDate.weekDay());
+	}
+	
 
 	@Test
 	public void isoWeekdayMonTest() throws MyDateException{
@@ -173,22 +183,85 @@ public class MyDateTest {
 
 	@Test
 	public void isoCalendarTest() throws MyDateException{
-		myDate.setDay(17);
-		myDate.setMonth(10);
 		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(17);
 
 		assertEquals("2016, 10, 17", myDate.isoCalendar());
 	}
 
 	@Test
 	public void isoFormatTest() throws MyDateException{
-		myDate.setDay(17);
-		myDate.setMonth(10);
 		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(17);
 
 		assertEquals("2016-10-17", myDate.isoFormat());
 	}
 
+	@Test
+	public void isoWeekNumberTest() throws MyDateException{
+		myDate.setYear(2017);
+		myDate.setMonth(10);
+		myDate.setDay(17);
+		
+		assertEquals(42, myDate.isoWeekNumber());
+	}
+	
+	@Test
+	public void isoWeekNumberATest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(20);
+		
+		assertEquals(42, myDate.isoWeekNumber());
+	}
+	
+	@Test
+	public void dayPastInYearInFirstMonthTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(1);
+		myDate.setDay(17);
+		
+		assertEquals(17, myDate.dayPastInYear());
+	}
+	
+	@Test
+	public void dayPastInYearInOctoberMonthTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(17);
+
+		assertEquals(291, myDate.dayPastInYear());
+	}
+	
+	@Test
+	public void dayPastInLeapYearInDecemberMonthTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(12);
+		myDate.setDay(31);
+
+		assertEquals(366, myDate.dayPastInYear());
+	}
+	
+	@Test
+	public void dayPastInNotLeapYearInDecemberMonthTest() throws MyDateException{
+		myDate.setYear(2017);
+		myDate.setMonth(12);
+		myDate.setDay(31);
+
+		assertEquals(365, myDate.dayPastInYear());
+	}
+	
+	@Test
+	public void dayPastInYearTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(17);
+		
+		assertEquals(291, myDate.dayPastInYear());
+	}
+	
 	@Test
 	public void toStringTest() throws MyDateException {
 		myDate.setDay(17);
@@ -223,7 +296,7 @@ public class MyDateTest {
 
 	// Test le jour 29 d'une ann�e bissextile
 	@Test 
-	public void setDayLimiSupBissextileTest() throws MyDateException{
+	public void setDayLimiSupLeapYearTest() throws MyDateException{
 		myDate.setDay(29);
 		myDate.setMonth(02);
 		myDate.setYear(2016);
