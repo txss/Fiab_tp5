@@ -138,7 +138,7 @@ public class MyDate {
 	 * Return the proleptic Gregorian ordinal of the date
 	 * @return
 	 */
-	public int toOrdinal(int year, int month, int day) {
+	public int toOrdinal() {
 		int nbBisex = 0;
 		for (int i = 1 ; i < year ; ++i) {
 			if (isLeapYear(i)) ++nbBisex;
@@ -146,20 +146,15 @@ public class MyDate {
 		
 		int nbDayInYears = ((year-1) * 365) + nbBisex ;
 		
-		System.out.println("nbBisex : " + nbBisex);
 		int tab_month [] = {0, 31 , 59,
 				90, 120, 151, 181, 212, 243, 273,
 				304, 334};
 		
 		int nbDayInThisYear = tab_month[month-1] + day;
 		
-		System.out.println(nbDayInThisYear + " - " + month);
-		
 		if(isLeapYear(year) && month > 2 ) {
 			nbDayInThisYear++;
 		}
-		
-		System.out.println(nbDayInYears + " - " + tab_month[month-1] + " - " + nbDayInThisYear);
 		
 		return nbDayInYears + nbDayInThisYear;
 	}

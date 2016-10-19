@@ -94,8 +94,12 @@ public class MyDateTest {
 	}
 
 	@Test
-	public void toOrdinalTest(){
-		assertEquals(736256, myDate.toOrdinal(2016, 10, 19));
+	public void toOrdinalTest() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(10);
+		myDate.setDay(19);
+		
+		assertEquals(736256, myDate.toOrdinal());
 	}
 	
 	@Test
