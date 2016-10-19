@@ -28,7 +28,9 @@ public class MyDateTest {
 
 	@Before
 	public void init() {
-		myDate = new MyDate(c);
+		myDate = new MyDate();
+		c.set(2012, 12, 21);
+		myDate.setCalendar(c);
 	}
 
 	/*
@@ -87,12 +89,12 @@ public class MyDateTest {
 	
 	@Test
 	public void isBissextile() throws MyDateException{
-		assertTrue( myDate.isBissextile(2016));
+		assertTrue(myDate.isBissextile(2016));
 	}
 
 	@Test
 	public void isNotBissextile() throws MyDateException{
-		assertFalse( myDate.isBissextile(2017));
+		assertFalse(myDate.isBissextile(2017));
 	}
 
 	@Test
@@ -107,12 +109,12 @@ public class MyDateTest {
 
 	@Test
 	public void is31Month() throws MyDateException{
-		assertTrue( myDate.is31Month(5) );
+		assertTrue(myDate.is31Month(5));
 	}
 
 	@Test
 	public void isNot31Month() throws MyDateException{
-		assertFalse( myDate.is31Month(6) );
+		assertFalse(myDate.is31Month(6));
 	}
 
 
@@ -210,14 +212,14 @@ public class MyDateTest {
 	@Test 
 	public void setDayLimiInfTest() throws MyDateException{
 		myDate.setDay(1);
-		assertEquals(1, myDate.getDay() );
+		assertEquals(1, myDate.getDay());
 	}
 
 	// Jour existant dans un mois
 	@Test
 	public void setDayTest() throws MyDateException{
 		myDate.setDay(17);
-		assertEquals(17, myDate.getDay() );
+		assertEquals(17, myDate.getDay());
 	}
 
 	// Test le jour 29 d'une ann�e bissextile
@@ -226,7 +228,7 @@ public class MyDateTest {
 		myDate.setDay(29);
 		myDate.setMonth(02);
 		myDate.setYear(2016);
-		assertEquals(29, myDate.getDay() );
+		assertEquals(29, myDate.getDay());
 	}
 
 	// Test le 30eme jour des mois de 30 jours
@@ -235,7 +237,7 @@ public class MyDateTest {
 		myDate.setDay(30);
 		myDate.setMonth(11);
 		myDate.setYear(2016);
-		assertEquals(30, myDate.getDay() );
+		assertEquals(30, myDate.getDay());
 	}
 
 	// Test du 31eme avec des mois de 31 jours
@@ -244,7 +246,7 @@ public class MyDateTest {
 		myDate.setDay(31);
 		myDate.setMonth(10);
 		myDate.setYear(2016);
-		assertEquals(31, myDate.getDay() );
+		assertEquals(31, myDate.getDay());
 	}
 
 	// Test du jour 0 dans un mois
@@ -288,19 +290,19 @@ public class MyDateTest {
 	@Test
 	public void setMonthLimitInfTest() throws MyDateException{
 		myDate.setMonth(1);
-		assertEquals(1, myDate.getMonth() );
+		assertEquals(1, myDate.getMonth());
 	}
 
 	@Test
 	public void setMonthTest() throws MyDateException{
 		myDate.setMonth(3);
-		assertEquals(3, myDate.getMonth() );
+		assertEquals(3, myDate.getMonth());
 	}
 
 	@Test
 	public void setMonthLimitSupTest() throws MyDateException{
 		myDate.setMonth(12);
-		assertEquals(12, myDate.getMonth() );
+		assertEquals(12, myDate.getMonth());
 	}
 
 	@Test (expected = MyDateException.class)
@@ -316,19 +318,19 @@ public class MyDateTest {
 	@Test
 	public void setYearLimitInfTest() throws MyDateException{
 		myDate.setYear(1970);
-		assertEquals(1970, myDate.getYear() );
+		assertEquals(1970, myDate.getYear());
 	}
 
 	@Test
 	public void setYearTest() throws MyDateException{
 		myDate.setYear(2016);
-		assertEquals(2016, myDate.getYear() );
+		assertEquals(2016, myDate.getYear());
 	}
 
 	@Test
 	public void setYearLimitSupTest() throws MyDateException{
 		myDate.setYear(2050);
-		assertEquals(2050, myDate.getYear() );
+		assertEquals(2050, myDate.getYear());
 	}
 
 	@Test (expected = MyDateException.class)

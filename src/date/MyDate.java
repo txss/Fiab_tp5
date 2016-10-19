@@ -18,9 +18,7 @@ public class MyDate {
 	private int month;
 	private int day ;
 
-	public MyDate(Calendar c){
-		this.c = c;
-	}
+	public MyDate() {}
 
 	public static int getMINYEAR() { return MINYEAR; }
 
@@ -55,6 +53,10 @@ public class MyDate {
 	public int getDay() {
 		return day;
 	}
+	
+	public void setCalendar(Calendar c) {
+		this.c = c;
+	}//setCalendar()
 
 	public boolean is31Month(int month){
 		if ( month == 1 || month == 3 || month == 5 || month == 7 || 
