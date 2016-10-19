@@ -195,7 +195,7 @@ public class MyDateTest {
 		myDate.setMonth(10);
 		myDate.setDay(17);
 
-		assertEquals("2016-10-17", myDate.isoFormat());
+		assertEquals("2016-42-1", myDate.isoFormat());
 	}
 
 	@Test
