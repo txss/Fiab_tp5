@@ -95,7 +95,7 @@ public class MyDateTest {
 
 	@Test
 	public void toOrdinalTest(){
-		assertEquals(1096, myDate.toOrdinal(2016, 10, 19));
+		assertEquals(736256, myDate.toOrdinal(2016, 10, 19));
 	}
 	
 	@Test

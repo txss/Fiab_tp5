@@ -139,7 +139,11 @@ public class MyDate {
 	 * @return
 	 */
 	public int toOrdinal(int year, int month, int day) {
-		int nbBisex = (year-1) / 4;
+		int nbBisex = 0;
+		for (int i = 1 ; i < year ; ++i) {
+			if (isLeapYear(i)) ++nbBisex;
+		}
+		
 		int nbDayInYears = ((year-1) * 365) + nbBisex ;
 		
 		System.out.println("nbBisex : " + nbBisex);
