@@ -88,6 +88,16 @@ public class MyDateTest {
 	}
 	
 	@Test
+	public void replaceTest(){
+
+	}
+
+	@Test
+	public void toOrdinalTest(){
+		assertEquals(myDate.toOrdinal(128, 1, 1), 1096);
+	}
+	
+	@Test
 	public void isBissextile() throws MyDateException{
 		assertTrue(myDate.isBissextile(2016));
 	}
@@ -117,17 +127,6 @@ public class MyDateTest {
 		assertFalse(myDate.is31Month(6));
 	}
 
-
-
-	@Test
-	public void replaceTest(){
-
-	}
-
-	@Test
-	public void toOrdinalTest(){
-
-	}
 
 	@Test
 	public void  weekDayMonTest() throws MyDateException{

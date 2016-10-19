@@ -95,19 +95,6 @@ public class MyDate {
 
 		this.day = day;
 	}
-
-	public Date today(){
-		return c.getTime();
-	}
-
-	public static long fromTimeStamp(long  timeStamp){
-		return System.currentTimeMillis() / 1000L;
-	}
-
-	public MyDate fromOrdinal(int ordinal){
-		// TODO Auto-generated method stub
-		return this;
-	}
 	
 	public int findDay(){
 		int num;
@@ -124,6 +111,13 @@ public class MyDate {
 		
 	}
 	
+	/**
+	 * Return Date of day
+	 * @return Date
+	 */
+	public Date today(){
+		return c.getTime();
+	}
 
 	/**
 	 * Return a date with the same value, except for those parameters given 
@@ -139,12 +133,48 @@ public class MyDate {
 	}
 
 	/**
+	 * 
+	 * @param timeStamp
+	 * @return
+	 */
+	public static long fromTimeStamp(long  timeStamp){
+		return System.currentTimeMillis() / 1000L;
+	}
+
+	/**
+	 * 
+	 * @param ordinal
+	 * @return
+	 */
+	public MyDate fromOrdinal(int ordinal){ //Méthode de Kévin & Ben
+		
+		return this;
+	}
+
+	/**
 	 * Return the proleptic Gregorian ordinal of the date
 	 * @return
 	 */
-	public MyDate toOrdinal() {
-		// TODO Auto-generated method stub
-		return null;
+	public int toOrdinal(int year, int month, int day) {
+		int nbBisex = (year-1) / 4;
+		int nbDayInYears = ((year-1) * 365) + nbBisex ;
+		
+		System.out.println("nbBisex : " + nbBisex);
+		int tab_month [] = {0, 31 , 59,
+				90, 120, 151, 181, 212, 243, 273,
+				304, 334};
+		
+		int nbDayInThisYear = tab_month[month-1] + day;
+		
+		System.out.println(nbDayInThisYear + " - " + month);
+		
+		if(isBissextile(year) && month > 2 ) {
+			nbDayInThisYear++;
+		}
+		
+		System.out.println(nbDayInYears + " - " + tab_month[month-1] + " - " + nbDayInThisYear);
+		
+		return nbDayInYears + nbDayInThisYear;
 	}
 
 	/**
