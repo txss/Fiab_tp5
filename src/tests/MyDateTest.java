@@ -21,7 +21,7 @@ import mockit.integration.junit4.JMockit;
 
 @RunWith(JMockit.class)
 public class MyDateTest {
-	MyDate myDate;
+	MyDate myDate; 
 	
 	@Mocked
 	Calendar c = Calendar.getInstance();

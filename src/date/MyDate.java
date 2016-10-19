@@ -77,6 +77,11 @@ public class MyDate {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param day
+	 * @throws MyDateException
+	 */
 	public void setDay(int day) throws MyDateException {
 		if( day < 1  )
 			throw new MyDateException("The day is not available");
