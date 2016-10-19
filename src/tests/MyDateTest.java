@@ -200,7 +200,7 @@ public class MyDateTest {
 
 	@Test
 	public void isoWeekNumberWhithLeapYearTest() throws MyDateException{
-		myDate.setYear(2017);
+		myDate.setYear(2016);
 		myDate.setMonth(10);
 		myDate.setDay(17);
 		
@@ -209,11 +209,39 @@ public class MyDateTest {
 	
 	@Test
 	public void isoWeekNumberWithNotLeapYearTest() throws MyDateException{
-		myDate.setYear(2016);
+		myDate.setYear(2017);
 		myDate.setMonth(10);
-		myDate.setDay(20);
+		myDate.setDay(17);
 		
 		assertEquals(42, myDate.isoWeekNumber());
+	}
+	
+	@Test
+	public void isoWeekNumberMonFirst() throws MyDateException{
+		myDate.setYear(2018);
+		myDate.setMonth(10);
+		myDate.setDay(17);
+		
+		assertEquals(42, myDate.isoWeekNumber());
+	}
+	
+	@Test
+	public void isoWeekNumber53WeekEndYear() throws MyDateException{
+		myDate.setYear(2020);
+		myDate.setMonth(12);
+		myDate.setDay(30);
+		
+		assertEquals(53, myDate.isoWeekNumber());
+	}
+	
+	
+	@Test
+	public void isoWeekNumber53LeapYear() throws MyDateException{
+		myDate.setYear(2016);
+		myDate.setMonth(1);
+		myDate.setDay(1);
+		
+		assertEquals(53, myDate.isoWeekNumber());
 	}
 	
 	@Test

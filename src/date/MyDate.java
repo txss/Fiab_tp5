@@ -10,10 +10,10 @@ public class MyDate {
 	private final static String [] MONTHARRAY = {"January", "February" , "March",
 			"April", "May", "June", "July", "August", "September", "October",
 			"November", "December"};
-	  
+
 
 	private Calendar c;
-	
+
 	private int year;
 	private int month;
 	private int day ;
@@ -28,7 +28,7 @@ public class MyDate {
 
 	public static String[] getMonthArray() { return MONTHARRAY; }
 
-	
+
 	public int getYear() {
 		return year; 
 	}
@@ -53,7 +53,7 @@ public class MyDate {
 	public int getDay() {
 		return day;
 	}
-	
+
 	public void setCalendar(Calendar c) {
 		this.c = c;
 	}//setCalendar()
@@ -93,7 +93,7 @@ public class MyDate {
 
 		this.day = day;
 	}
-	
+
 	/**
 	 * Return Date of day
 	 * @return Date
@@ -130,7 +130,7 @@ public class MyDate {
 	 * @return
 	 */
 	public MyDate fromOrdinal(int ordinal){ //Méthode de Kévin & Ben
-		
+
 		return this;
 	}
 
@@ -141,22 +141,22 @@ public class MyDate {
 	public int toOrdinal(int year, int month, int day) {
 		int nbBisex = (year-1) / 4;
 		int nbDayInYears = ((year-1) * 365) + nbBisex ;
-		
+
 		System.out.println("nbBisex : " + nbBisex);
 		int tab_month [] = {0, 31 , 59,
 				90, 120, 151, 181, 212, 243, 273,
 				304, 334};
-		
+
 		int nbDayInThisYear = tab_month[month-1] + day;
-		
+
 		System.out.println(nbDayInThisYear + " - " + month);
-		
+
 		if(isLeapYear(year) && month > 2 ) {
 			nbDayInThisYear++;
 		}
-		
+
 		System.out.println(nbDayInYears + " - " + tab_month[month-1] + " - " + nbDayInThisYear);
-		
+
 		return nbDayInYears + nbDayInThisYear;
 	}
 
@@ -169,10 +169,10 @@ public class MyDate {
 
 		num = ( (23*month) / 9) + day + 4 + year + (year / 4 ) - 
 				(year / 100) + (year / 400);
-		
+
 		if( month >= 3 ) return (num - 2 ) % 7;
 		return ( num ) % 7;
-		
+
 	}
 
 	/**
@@ -191,20 +191,22 @@ public class MyDate {
 	 */
 	public int dayPastInYear(){
 		int dayPastInYear = day ;
-	
+
 		if( month == 1 ) return dayPastInYear;
-		
+
 		for(int i = 1 ; i < month ; i++){
 			if( i == 2 && isLeapYear(year)) dayPastInYear +=29;
 			if( i == 2 && ! isLeapYear(year)) dayPastInYear +=28;
-			
+
 			if( is30Month(i) ) dayPastInYear+= 30; 
 			if( is31Month(i) )  dayPastInYear += 31;
 		}
-		
+
 		return dayPastInYear;
 	}
-	
+
+
+
 	/**
 	 * Return the current number of the week
 	 * @return
@@ -216,24 +218,31 @@ public class MyDate {
 		tmp.setMonth(1);
 		tmp.setDay(1);
 
-		int x =  (int)((dayPastInYear() / 7)+ (tmp.isoWeekday()*0.20) );
+		MyDate tmpweek = new MyDate();
+		tmpweek.setYear(year-1);
+		tmpweek.setMonth(1);
+		tmpweek.setDay(1);
+		int dayPast = dayPastInYear();
+		int result;
+
+		if(tmp.isoWeekday() > 4){
+			result = ((dayPast - (8-tmp.isoWeekday()) ) / 7);
+		}else
+			result = ( ((tmp.isoWeekday()-1) + dayPast) /7);
+			
+		if( tmpweek.isoWeekday()==4)
+			if (result == 0)
+				return 53;
 		
-		if(tmp.isoWeekday() <= 4){
-			if( x == 0 ) return 1;
-			return x;
-		} else
-			if( x == 0 )
-				if( isLeapYear(year-1) ) return 53;
-				else return 52;
-		return (int) (x);
+		return result+1;
 	}
-	
+
 	/**
 	 * Return a 3-tuple, (ISO year, ISO week number, ISO weekday)
 	 * @return
 	 */
 	public String isoCalendar() {
-		
+
 		return null;
 	}
 
