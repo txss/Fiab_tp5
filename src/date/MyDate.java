@@ -3,13 +3,18 @@ package date;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 public class MyDate {
 	private final static int MINYEAR = 1970;
 	private final static int MAXYEAR = 2050;
 	private final static String [] DAYARRAY = {"Sunday", "Monday", "Tuesday" , "Wednesday", "Thurday", "Friday", "Saturday"};
-	private final static String [] MONTHARRAY = {"January", "February" , "March",
-			"April", "May", "June", "July", "August", "September", "October",
-			"November", "December"};
+	private final static String [] MONTHARRAY = {
+			"January", 	"February", "March",
+			"April", 	"May", 		"June",
+			"July", 	"August", 	"September",
+			"October", 	"November", "December"
+	};
 
 
 	private Calendar c;
@@ -44,7 +49,7 @@ public class MyDate {
 		return month; 
 	}
 
-	public void setMonth(int month) throws MyDateException { 
+	public void setMonth(@NonNull int month) throws MyDateException { 
 		if( month < 1 || month > 12 ) 
 			throw new MyDateException("The month is not availabe");
 		this.month = month; 
@@ -54,24 +59,24 @@ public class MyDate {
 		return day;
 	}
 
-	public void setCalendar(Calendar c) {
+	public void setCalendar(@NonNull Calendar c) {
 		this.c = c;
 	}//setCalendar()
 
-	public boolean is31Month(int month){
+	@NonNull public boolean is31Month(@NonNull int month){
 		if ( month == 1 || month == 3 || month == 5 || month == 7 || 
 				month == 8 || month == 10 || month == 12) 
 			return true;
 		return false;
 	}
 
-	public boolean is30Month(int month){
+	@NonNull public boolean is30Month(@NonNull int month){
 		if ( month == 4 || month == 6 || month == 9 || month == 11 )
 			return true;
 		return false;
 	}
 
-	public boolean isLeapYear(int year){
+	@NonNull public boolean isLeapYear(@NonNull int year){
 		if( (year % 4 ==0 && year % 100 != 0) || year % 400 == 0)
 			return true;
 		return false;
@@ -82,7 +87,7 @@ public class MyDate {
 	 * @param day
 	 * @throws MyDateException
 	 */
-	public void setDay(int day) throws MyDateException {
+	public void setDay(@NonNull int day) throws MyDateException {
 		if( day < 1  )
 			throw new MyDateException("The day is not available");
 
@@ -103,7 +108,7 @@ public class MyDate {
 	 * Return Date of day
 	 * @return Date
 	 */
-	public Date today(){
+	@NonNull public Date today(){
 		return c.getTime();
 	}
 
@@ -113,10 +118,10 @@ public class MyDate {
 	 * @param year
 	 * @param month
 	 * @param day
-	 * @return
+	 * @return MyDate
 	 * @throws MyDateException 
 	 */
-	public MyDate replace(int year, int month, int day) throws MyDateException {
+	@NonNull public MyDate replace(@NonNull int year, @NonNull int month, @NonNull int day) throws MyDateException {
 		setYear(year);
 		setMonth(month);
 		setDay(day);
@@ -128,7 +133,7 @@ public class MyDate {
 	 * @param timeStamp
 	 * @return
 	 */
-	public static long fromTimeStamp(long  timeStamp){
+	@NonNull public static long fromTimeStamp(@NonNull long  timeStamp){
 		return System.currentTimeMillis() / 1000L;
 	}
 
@@ -137,7 +142,7 @@ public class MyDate {
 	 * @param ordinal
 	 * @return
 	 */
-	public MyDate fromOrdinal(int ordinal){ //Méthode de Kévin & Ben
+	@NonNull public MyDate fromOrdinal(@NonNull int ordinal){ //Méthode de Kévin & Ben
 
 		return this;
 	}
@@ -146,7 +151,7 @@ public class MyDate {
 	 * Return the proleptic Gregorian ordinal of the date
 	 * @return
 	 */
-	public int toOrdinal() {
+	@NonNull public int toOrdinal() {
 		int nbBisex = 0;
 		for (int i = 1 ; i < year ; ++i) {
 			if (isLeapYear(i)) ++nbBisex;
@@ -170,7 +175,7 @@ public class MyDate {
 	 * Return the day of the week as an integer, where Monday is 0 and Sunday is 6
 	 * @return
 	 */
-	public int weekDay() {
+	@NonNull public int weekDay() {
 		int num;
 
 		num = ( (23*month) / 9) + day + 4 + year + (year / 4 ) - 
@@ -185,7 +190,7 @@ public class MyDate {
 	 * Return an integer between 1 at 7
 	 * @return
 	 */
-	public int isoWeekday() {
+	@NonNull public int isoWeekday() {
 		if(weekDay()==0)
 			return 7;
 		return weekDay();
@@ -195,7 +200,7 @@ public class MyDate {
 	 * Return a number of day past in year with the current day
 	 * @return
 	 */
-	public int dayPastInYear(){
+	@NonNull public int dayPastInYear(){
 		int dayPastInYear = day ;
 
 		if( month == 1 ) return dayPastInYear;
@@ -218,7 +223,7 @@ public class MyDate {
 	 * @return
 	 * @throws MyDateException
 	 */
-	public int isoWeekNumber() throws MyDateException{
+	@NonNull public int isoWeekNumber() throws MyDateException{
 		MyDate tmp = new MyDate();
 		tmp.setYear(year);
 		tmp.setMonth(1);
@@ -248,7 +253,7 @@ public class MyDate {
 	 * @return
 	 * @throws MyDateException 
 	 */
-	public String isoCalendar() throws MyDateException {
+	@NonNull public String isoCalendar() throws MyDateException {
 		return getYear() + "-" + isoWeekNumber() + "-" + isoWeekday();
 	}
 
@@ -256,14 +261,14 @@ public class MyDate {
 	 * Return a string representing the date in ISO 8601 format, �YYYY-MM-DD�.
 	 * @return
 	 */
-	public String isoFormat() {
+	@NonNull public String isoFormat() {
 		return getYear() + "-" + getMonth() + "-" + getDay();
 	}
 
 	/**
 	 * Return a string representing DD/MM/YYYY
 	 */
-	public String toString(){
+	@NonNull public String toString(){
 		return getDay() + "/" + getMonth() + "/" + getYear();
 	}
 
@@ -271,7 +276,7 @@ public class MyDate {
 	 * Return a string representing the date Wed Dec 4 2002
 	 * @return
 	 */
-	public String ctime() {
+	@NonNull public String ctime() {
 		return DAYARRAY[weekDay()] + " " + MONTHARRAY[getMonth()-1] + " " + getDay() + " " + getYear() ;
 	}
 
