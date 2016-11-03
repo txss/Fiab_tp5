@@ -141,23 +141,77 @@ public class MyDate {
 	 * 
 	 * @param ordinal
 	 * @return
+	 * @throws MyDateException 
 	 */
-	@NonNull public MyDate fromOrdinal(@NonNull int ordinal){ //MÃ©thode de KÃ©vin & Ben
+	@NonNull public String fromOrdinal(@NonNull int ordinal) throws MyDateException{ //Méthode de Kévin & Ben PATOUCHHH
+		int tab_month [] = {0, 0, 31 , 59,
+				90, 120, 151, 181, 212, 243, 273,
+				304, 334};
+		
+		int day_in_month [] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-		return this;
+		int numberOfDayIn400Years = days_before_year(401);
+		int numberOfDayIn100Years = days_before_year(101);
+		int numberOfDayIn4Years = days_before_year(5);
+		int n=ordinal;
+
+		n -= 1;
+		int n400 = n/numberOfDayIn400Years;
+		n = n%numberOfDayIn400Years;
+		int year= n400 * 400 + 1;
+
+		int n100 = n/numberOfDayIn100Years;
+		n = n%numberOfDayIn100Years;
+		
+		int n4=n/numberOfDayIn4Years;
+		n=n%numberOfDayIn4Years;
+		
+		int n1=n/365;
+		n=n%365;
+
+		year += n100 * 100 + n4 * 4 + n1;
+		if(n1 == 4 || n100 == 4){
+			this.year=year-1;
+			this.day=31;
+			this.month=12;
+			return toString();
+		}
+
+		boolean leapyear = (n1 == 3) && (n4 != 24 || n100 == 3);
+
+		if(isLeapYear(year) != leapyear)
+			throw new MyDateException("Error leap");
+
+		int month= (n + 50) >> 5;
+
+		int plus1 = 0;
+		if(month > 2 && leapyear)
+			plus1=1;
+		int preceding = tab_month[month] + plus1;
+
+		plus1 = 0;
+		if(month == 2 && leapyear)
+			plus1=1;
+		if(preceding > n){
+			month-= 1;
+			preceding -= day_in_month[month] + plus1;
+		}
+		n -= preceding;
+		
+		this.year=year;
+		this.month=month;
+		this.day=n+1;
+
+		return toString();
 	}
 
 	/**
 	 * Return the proleptic Gregorian ordinal of the date
 	 * @return
 	 */
-	@NonNull public int toOrdinal() {
-		int nbBisex = 0;
-		for (int i = 1 ; i < year ; ++i) {
-			if (isLeapYear(i)) ++nbBisex;
-		}
-		
-		int nbDayInYears = ((year-1) * 365) + nbBisex ;
+	public int toOrdinal() {
+		int y = year-1;
+		int nbDayInYears = (y * 365) + y/4 - y/100 + y/400;
 
 		int tab_month [] = {0, 31 , 59,
 				90, 120, 151, 181, 212, 243, 273,
@@ -168,7 +222,13 @@ public class MyDate {
 		if(isLeapYear(year) && month > 2 ) {
 			nbDayInThisYear++;
 		}
+
 		return nbDayInYears + nbDayInThisYear;
+	}
+	
+	private int days_before_year(int year){
+	    int y = year - 1;
+	    return y*365 + y/4 - y/100 + y/400;
 	}
 
 	/**

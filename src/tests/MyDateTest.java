@@ -82,13 +82,19 @@ public class MyDateTest {
 	}
 
 	@Test
-	public void toOrdinalTest() throws MyDateException{
-		myDate.setYear(2016);
-		myDate.setMonth(10);
-		myDate.setDay(19);
-		
-		assertEquals(736256, myDate.toOrdinal());
+	public void fromOrdinalTest() throws MyDateException{
+		assertEquals("21/12/2012", myDate.fromOrdinal(734858));
 	}
+	
+	@Test
+	public void toOrdinalTest() throws MyDateException{
+		myDate.setYear(2012);
+		myDate.setMonth(12);
+		myDate.setDay(21);
+	
+		assertEquals(734858, myDate.toOrdinal());
+	}
+
 	
 	
 	@Test
